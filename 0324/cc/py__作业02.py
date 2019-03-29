@@ -3,6 +3,7 @@
 # 2019/3/25 18:31
 # 猜数字游戏
 import random
+# 这里 空格
 answer =random.randint(1,21)
 print("猜数字游戏开始！")
 guess = 0

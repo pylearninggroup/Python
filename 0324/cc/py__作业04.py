@@ -6,3 +6,7 @@ def write():
     f.write(input("请输入想写入的内容："))
     f.close()
 write()
+
+
+# 如果用户输入q则退出程序，似乎这一点忘记了呢？
+# 弱警告

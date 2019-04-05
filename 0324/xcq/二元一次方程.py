@@ -2,6 +2,7 @@ import math
 def equation(a,b,c):
     mid = b**2-4*a*c
     if mid>=0:
+        # TODO：2*a
         x1 = (-b+math.sqrt(mid))/2*a
         x2 = (-b-math.sqrt(mid))/2*a
         print('x1 = %.2f'%x1,'x2=%.2f'%x2)
@@ -10,4 +11,7 @@ def equation(a,b,c):
 
 print('Please enter the coefficients')
 print('the formula should be ax^2+bx+c ')
+# TODO：float
 equation(a=int(input()),b=int(input()),c=int(input()))
+
+# TODO：格式

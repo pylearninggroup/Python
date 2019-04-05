@@ -8,6 +8,7 @@ def cat(a, b, c):
     if delta < 0:
         print('无解')
     else:
+        # TODO：求根公式错了，最后2*a要带括号
         m = (-b + (b ** 2 - 4 * a * c)**0.5) / 2 * a
         n = (-b - (b ** 2 - 4 * a * c)**0.5) / 2 * a
         print(f'x1: {m}  x2:{n}')

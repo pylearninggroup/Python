@@ -13,3 +13,6 @@ while In != Number:
         print("a little smaller")
 else:
     print("Bingo")
+
+
+# 思路没问题，赞👍

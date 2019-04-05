@@ -16,6 +16,7 @@ def a(code):
     return d.get(code)
 while True:
     b=input('请输入区号查询~输入Q就可以退出啦！')
+    # 最好lower()一下
     if b == 'q':
         import sys
         sys.exit()
@@ -23,3 +24,4 @@ while True:
         print(a(b))
 
 
+# 注意代码格式

@@ -19,3 +19,5 @@ while num!=num2:
     if num == num2:
         print('congratulations!')
 sys.exit()
+
+# TODO：注意格式就好

@@ -13,6 +13,7 @@ a = {"010": "北京",
      "0421": "朝阳"}
 def put():
     key = b
+    # TODO：建议用get方法
     return a[key]
 while True:
     Q = input("回车进行下一步，输入q退出程序")

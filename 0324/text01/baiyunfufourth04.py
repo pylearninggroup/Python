@@ -5,3 +5,8 @@ def write():
 
 
 write()
+
+
+# TODO：需要循环
+# TODO：追加模式打开文件
+# TODO：q退出

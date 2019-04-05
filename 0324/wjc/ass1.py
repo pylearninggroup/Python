@@ -1,7 +1,8 @@
 # coding: utf-8
 # untitled-ass1
 # 2019/3/3021:29
-
+# TODO：作为唯一一位在一个文件中提交的童鞋，建议每个问题都定义一个函数吧
+# TODO：这个也行……但是random.choice更方便啦
 """选择困难症
 import random
 a=random.randint(1,4)
@@ -30,6 +31,7 @@ while 1:
         break
 '''
 
+# TODO：应该用float转
 '''#二元一次方程
 import math
 a = int(input("输入第一个未知数a"))
@@ -39,6 +41,7 @@ m = b ** 2 - 4 * a * c
 x1 = 0
 x2 = 0
 if m > 0:
+# 这里 float转，2*a
     x1 = int((-b + m ** 0.5) / 2 * a)
     x2 = int((-b - m ** 0.5) / 2 * a)
     print ('x1=',x1)
@@ -50,6 +53,7 @@ elif m < 0:
     print("no answer")
 '''
 
+# TODO：有点乱，重新捋一下思路？
 '''
 #写文件
 f = open('E:/123.txt','w', encoding='utf-8')
@@ -63,6 +67,7 @@ f.close()
 # r = input("please input the number:")
 # try:
 #     f = float(r)
+# TODO：float转
 #     v = (4 / 3) * pi * (int(r) ** 3)
 #     print("球体体积", v)
 # except ValueError:

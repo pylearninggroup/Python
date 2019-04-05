@@ -7,3 +7,6 @@ def write():
     f.write(a)
     f.close()
 write()
+
+
+# TODO：输入q退出程序呢？

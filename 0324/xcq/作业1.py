@@ -1,5 +1,7 @@
 #coding=utf-8
+# TODO：这里是字符串，不是列表，也不是元组
 a=("coke""spirit""fanta""juice")
+# TODO：import一般放在上面
 from random import choice
 print(choice(a))
 

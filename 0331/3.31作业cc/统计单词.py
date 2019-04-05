@@ -6,6 +6,8 @@
 用正则是不是很简单
 然而咱们没学过正则啊
 老师'''
+# TODO: 是的，用正则很好，但是想一想，英文分词靠的是空格
+# TODO: 直接把文件读出来，用空格分割，统计列表长度就对了
 f = open('Half a day.txt','r',encoding='utf-8')
 readline = f.readlines()
 word = []

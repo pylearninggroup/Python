@@ -33,3 +33,5 @@ t11 = time.perf_counter()
 print(dict_1[100000])
 t12 = time.perf_counter()
 print(t12 - t11)
+
+# 有点一言难尽😂

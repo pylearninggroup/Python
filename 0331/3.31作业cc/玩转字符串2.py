@@ -2,6 +2,8 @@
 # 3.31作业  - 玩转字符串2.py
 # 2019/4/3 13:24
 str = 'What is dead may never die'
+# TODO: 这里其实就没必要split了，因为要求每个字符一行，直接for i in string
+# TODO: 写入i就好了
 str1 = str.split(' ')
 a1 = str1[0]
 a2 = str1[1]

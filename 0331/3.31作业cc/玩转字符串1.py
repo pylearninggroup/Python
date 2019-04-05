@@ -10,6 +10,7 @@ a4 = str1[3]
 a5 = str1[4]
 a6 = str1[-1]
 list = [a1+'\n',a2 + '\n',a3 + '\n',a4 + '\n',a5 + '\n',a6 + '\n']
+# TODO: 上面这里用循环处理下更好
 f = open('玩转字符串1.txt','w',encoding='utf-8')
 f.writelines(list)
 

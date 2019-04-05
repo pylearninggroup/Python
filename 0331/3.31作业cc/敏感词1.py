@@ -30,3 +30,6 @@ def fun2(words, b):
     print("Human Rights")
     return
 fun2(fun1(),input)
+
+
+# TODO：这样可以，但其实直接把words.txt读到字符串里，用in判断字符串包含就足够了

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote for your favorite fruits!</title>
+</head>
+<body>
+{% for name in fruits %}
+
+<li>{{ escape(name) }}-->{{ fruits[name] }}</li>
+
+{% end %}
+<br>
+<form method="post">
+    {% for name in fruits %}
+    <label>
+        <input type="radio" name="fruits" value="{{ name }}">
+    </label> {{ name }}<br>
+    {% end %}
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

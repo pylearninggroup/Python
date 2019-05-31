@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote for yourself!</title>
+</head>
+<body>
+{% for one in names %}
+
+<li>{{ escape(one) }}-->{{ names[one] }}</li>
+
+{% end %}
+<br>
+<form method="post">
+    {% for name in names %}
+    <label>
+        <input type="radio" name="name" value="{{ name }}">
+    </label> {{ name }}<br>
+    {% end %}
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

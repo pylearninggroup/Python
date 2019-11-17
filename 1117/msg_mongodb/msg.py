@@ -6,6 +6,7 @@
 import logging
 import time
 from platform import uname
+from passlib.hash import pbkdf2_sha256
 
 from tornado import web, ioloop, httpserver, options
 
@@ -45,15 +46,12 @@ class IndexHandler(BaseHandler):
         ip = '.'.join(self.request.remote_ip.split('.')[0:2]) + '.*.*'
 
         client = mongo_db()
-        db = client['demo']
-        col = db['msg']
+        db = client['msg']
+        col = db['message']
         data = dict(name=name, msg=msg, dt=dt, ip=ip)
         col.insert_one(data)
         client.close()
         self.redirect('/')
-
-
-from passlib.hash import pbkdf2_sha256
 
 
 class LoginHandler(BaseHandler):

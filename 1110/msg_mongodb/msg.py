@@ -53,9 +53,39 @@ class IndexHandler(BaseHandler):
         self.redirect('/')
 
 
+from passlib.hash import pbkdf2_sha256
+
+
+class LoginHandler(BaseHandler):
+
+    def get(self):
+        self.render('login.html')
+
+    def post(self):
+        username = self.get_argument('username')
+        password = self.get_argument('password')
+        client = mongo_db()
+        db = client['msg']
+        col = db['users']
+
+        db_password = None
+        for doc in col.find({"username": username}):
+            db_password = doc['password']
+
+        if db_password and pbkdf2_sha256.verify(password, db_password):
+            print('ok')
+            self.redirect('/message')
+        else:
+            self.redirect('/')
+            print('bad')
+
+        client.close()
+
+
 class RunServer:
     handlers = [
-        (r'/', IndexHandler),
+        (r'/message', IndexHandler),
+        (r'/', LoginHandler),
     ]
     settings = {
         "cookie_secret": "5Li05DtnQewDZq1mDVB3HAAhFqUu2vD2USnqezkeu+M=",

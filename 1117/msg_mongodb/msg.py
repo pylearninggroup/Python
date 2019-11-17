@@ -26,6 +26,8 @@ def mongo_db():
 class IndexHandler(BaseHandler):
 
     def get(self):
+        if not self.get_secure_cookie('user'):
+            self.redirect('/')
         client = mongo_db()
         db = client['demo']
         col = db['msg']
@@ -40,6 +42,8 @@ class IndexHandler(BaseHandler):
         self.render('main.html', message=comments)
 
     def post(self):
+        if not self.get_secure_cookie('user'):
+            self.redirect('/')
         msg = self.get_argument('message')
         name = self.get_argument('name')
         dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
@@ -72,11 +76,11 @@ class LoginHandler(BaseHandler):
 
         if db_password and pbkdf2_sha256.verify(password, db_password):
             print('ok')
+            self.set_secure_cookie('user', username)
             self.redirect('/message')
         else:
             self.redirect('/')
             print('bad')
-
         client.close()
 
 

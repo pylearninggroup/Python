@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>いらっしゃいますˋ( ° ▽、° ) </title>
+</head>
+<body>
+<h1 style="text-align: center;">Hi~ o(*￣▽￣*) こんにちは。</h1>
+
+<form method="post">
+    <label> 姓名
+        <input name="name" type="text">
+    </label> <br> <br>
+
+    请输入留言内容
+    <br>
+    <label>
+        <textarea name="message" rows="10" cols="100"></textarea>
+    </label>
+    <br>
+
+    <input id="submit" type="submit">
+
+</form>
+
+<hr>
+
+{% if message %}
+{% for n in message %}
+{{ n }}<br><br>
+{% end %}
+{% end %}
+
+</body>
+<script>
+
+    console.log('js console')
+
+
+</script>
+</html>

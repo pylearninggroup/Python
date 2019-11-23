@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>いらっしゃいますˋ( ° ▽、° ) </title>
+</head>
+
+<!-- 引入样式 -->
+<link rel="stylesheet" href="/static/css/element.css">
+<!-- 引入组件库 -->
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/element.js"></script>
+<script src="/static/js/axios.js"></script>
+<body>
+
+
+<div id="app">
+    <el-container>
+        <el-header><h1>Hi~ o(*￣▽￣*) こんにちは。</h1>
+        </el-header>
+        <el-main>
+
+            <template>
+                <el-table
+                        :data="tableData"
+                        style="width: 100%">
+                    <el-table-column
+                            prop="name"
+                            label="姓名"
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="message"
+                            label="内容"
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="IP"
+                            label="IP地址">
+                    </el-table-column>
+                </el-table>
+            </template>
+
+
+        </el-main>
+    </el-container>
+
+
+</div>
+
+
+</body>
+
+<script>
+    var Main = {
+        data() {
+            return {
+                tableData: []
+            }
+        },
+
+        created: function () {
+            let that = this;
+            axios.get('/message')
+                .then(function (response) {
+                    // handle success
+                    that.tableData = response.data.data;
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                });
+            console.log('aaaaaaaa');
+        },
+        methods: {
+            onSubmit() {
+                console.log(this.form);
+
+
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
+</script>
+
+
+</html>

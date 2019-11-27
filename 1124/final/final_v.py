@@ -69,22 +69,12 @@ class LoginHandler(BaseHandler):
 
     def post(self):
         form = json.loads(self.request.body)
-        print(form)
-        username = form['username']
-        password = form['password']
-        client = mongo_db()
-        db = client['message']
-        col = db['users']
+        print(form)  # form是字典了
+        self.write({'status': 'ok'})
 
-        db_password = None
-        for doc in col.find({"username": username}):
-            db_password = doc['password']
-        if db_password and pbkdf2_sha256.verify(password, db_password):
-            self.set_secure_cookie('user', username)
-            self.redirect('/static/index.html')
-        else:
-            self.set_status(403)
-        client.close()
+    def get(self):
+        data = dict(name='Benny', age=18, family=['China', 'Earch'])
+        self.write(data)
 
 
 class RunServer:

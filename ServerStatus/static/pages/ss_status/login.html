@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/css/element.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/element.min.js"></script>
+    <script src="/static/js/axios.min.js" async></script>
+
+    <script src="/static/config/AjaxUrls.js" async></script>
+</head>
+<body>
+
+<el-container id="app">
+
+    <el-header ref="headerRef" class="fw-header ">
+        <div class="fw-logo"></div>
+        <a href="../index.html" class="title">
+            <div class="title" v-html="sysTitle"></div>
+        </a>
+    </el-header>
+
+    <div class="login-box">
+
+        <el-row>
+            <el-col :span="8">
+                <el-input v-model="password" type="password" placeholder="请输入密码">
+                    <template slot="prepend">密码</template>
+                </el-input>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="8">
+                <el-button @click="login" style="width:100%" type="primary">登录</el-button>
+            </el-col>
+        </el-row>
+    </div>
+
+
+</el-container>
+
+</body>
+
+<style>
+    .el-row {
+        margin-bottom: 20px;
+    }
+
+    .login-box {
+        margin-top: 15%;
+        margin-left: 40%;
+    }
+
+</style>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            password: '',
+            sysTitle: '影梭状态 - 登录'
+
+        },
+        created: function () {
+            document.getElementsByTagName('title')[0].innerText = this.sysTitle;
+        },
+
+        methods: {
+            login: function () {
+                if (!Boolean(this.password)) {
+                    this.$message({
+                        message: '密码为空！',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                axios.post(AjaxUrls.login, "password=" + this.password + ';_xsrf=' + getCookie("_xsrf"))
+                    .then((res) => {
+                        this.$message({
+                            message: '登录成功！即将跳转...',
+                            type: 'success'
+                        });
+                        setTimeout(function () {
+                            window.location = 'index.html'
+                        }, 1500);
+
+                    }).catch((err) => {
+                    let msg = err.response ? err.response.data.message : err.message;
+                    let error = err.response ? err.response : err.request;
+                    this.$message({
+                        message: msg,
+                        type: 'error'
+                    });
+                    console.error(error);
+
+                });
+
+
+            }
+        }
+    });
+
+    function getCookie(name) {
+        let c = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return c ? c[1] : undefined;
+    }
+</script>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/css/element.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/element.min.js"></script>
+    <script src="/static/js/axios.min.js" async></script>
+
+    <script src="/static/config/AjaxUrls.js" async></script>
+</head>
+<body>
+
+<el-container id="app" v-loading="loading" element-loading-text="小土豆拼命加载中">
+
+    <el-header ref="headerRef" class="fw-header ">
+        <div class="fw-logo"></div>
+        <div class="title" v-html="sysTitle"></div>
+        <a class="menu-toggle fw-toggle fa fa-bars" @click="menuCollapse=!menuCollapse"></a>
+    </el-header>
+    <el-container>
+        <el-menu
+                ref="menu"
+                class="el-aside fw-menu"
+                :default-active="menu_index"
+                :collapse="menuCollapse">
+            <a v-for="item in menus" :href="item.url">
+                <el-menu-item :index="item.index">
+                    <i class="fa" :class="item.font_icon"></i>
+                    <span slot="title" v-html="item.title"></span>
+                </el-menu-item>
+            </a>
+        </el-menu>
+        <el-main id="mainDiv" class="pj-main">
+            <div id="toolbarDiv" ref="toolbarRef" class="pj-toolbar">
+                <el-button type="text" icon="el-icon-refresh"
+                           @click="refresh">刷新
+                </el-button>
+
+
+                <div style="float: right;display: inline-block;">
+                    <el-input id="filterInput"
+                              @keydown.esc.native="textFilter='';searchTable()"
+                              @change="searchTable()"
+                              placeholder="搜索"
+                              prefix-icon="el-icon-search"
+                              size="small"
+                              v-model="textFilter"
+                              clearable
+                              autofocus>
+                    </el-input>
+                </div>
+            </div>
+            <el-table id="gridDiv"
+                      ref="dataTable"
+                      class="pj-table"
+                      :data="tableData"
+                      stripe
+                      border
+                      :height="calTableHeight">
+
+                <el-table-column
+                        type="index"
+                        label="#"
+                        width="45">
+                </el-table-column>
+
+
+                <el-table-column v-for="column in tableColumns" :label="column.label" :prop="column.prop"
+                                 :fixed="column.fixed" :sortable="column.sortable" :width="column.width"
+                >
+                    <template scope="scope">
+                        <div v-if="column.prop=='nginx' || column.prop=='mysql'||column.prop=='php'">
+                            <el-popover
+                                    placement="top-start"
+                                    :title="column.label+' 状态'"
+                                    width="200"
+                                    trigger="hover"
+                                    :content="scope.row[column.prop][1]">
+                                <a href="javascript:" slot="reference"> <span v-html="scope.row[column.prop][0]"></span></a>
+                            </el-popover>
+                        </div>
+                        <div v-else-if="column.prop=='address' ">
+                            <a :href="scope.row[column.prop]" target="_blank">
+                                <span v-html="scope.row[column.prop]"></span>
+                            </a>
+                        </div>
+                        <div v-else-if="column.prop=='arch' && scope.row.arch==='LNMP'">
+                            <el-tooltip content="Linux+Nginx+MySQL+PHP" placement="top">
+                                <span>LNMP</span>
+                            </el-tooltip>
+                        </div>
+                        <div v-else-if="column.prop=='arch' && scope.row.arch=='LNT'">
+                            <el-tooltip content="Linux+Nginx+Tornado" placement="top">
+                                <span>LNT</span>
+                            </el-tooltip>
+                        </div>
+                        <div v-else-if="column.prop=='arch' && scope.row.arch=='LNF'">
+                            <el-tooltip content="Linux+Nginx+Flask" placement="top">
+                                <span>LNF</span>
+                            </el-tooltip>
+                        </div>
+                        <div v-else-if="column.prop=='rate' && eval(scope.row.rate.split('%')[0])==100">
+                            <el-tag type="success">{{scope.row.rate}}</el-tag>
+                        </div>
+                        <div v-else-if="column.prop=='rate' && eval(scope.row.rate.split('%')[0])>=90">
+                            <el-tag type="warning">{{scope.row.rate}}</el-tag>
+                        </div>
+                        <div v-else-if="column.prop=='rate' && eval(scope.row.rate.split('%')[0])<90">
+                            <el-tag type="danger">{{scope.row.rate}}</el-tag>
+                        </div>
+                        <div v-else-if="column.prop=='status'">
+                            <el-tooltip placement="top">
+                                <div slot="content">{{scope.row.status[0]?'服务器运行中：'+scope.row.status[1]
+                                    :'服务器已停止运行：\n'+scope.row.status[1]}}<br>更新时间：{{scope.row.status[2]}}
+                                </div>
+                                <el-switch
+                                        v-model="scope.row.status[0]"
+                                        active-color="#13ce66"
+                                        inactive-color="#ff4949"
+                                        disabled>
+                                </el-switch>
+                            </el-tooltip>
+                        </div>
+
+                        <div v-else>
+                            <span v-html="scope.row[column.prop]"></span>
+                        </div>
+                    </template>
+
+                </el-table-column>
+                <el-table-column label="操作" width="85">
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="light" content="邮件反馈呗(。・∀・)ノ" placement="right-end">
+                            <el-button type="text" icon="el-icon-message" @click="mail(scope)"></el-button>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                    id="pageDiv"
+                    ref="paginationRef"
+                    class="pj-pagination"
+                    @size-change="handlePageSizeChange"
+                    @current-change="handlePageCurrentChange"
+                    :page-sizes="tablePage.sizes"
+                    :page-size="tablePage.size"
+                    :layout="tablePage.layout"
+                    :total="totalDataCount"
+                    background>
+            </el-pagination>
+        </el-main>
+
+
+    </el-container>
+</el-container>
+
+</body>
+
+<script src="web.js"></script>
+<script src="../tablePage/page.js" async></script>
+</html>

@@ -1,4 +1,5 @@
-# game
+# 1. game
+http://127.0.0.1:8888/api/game
 ```json
 {
   "column": [
@@ -91,7 +92,8 @@
 }
 
 ```
-# web
+# 2. web
+http://127.0.0.1:8888/api/web
 ```json
 {
   "column": [
@@ -173,7 +175,8 @@
   ]
 }
 ```
-# ss
+# 3. ss
+http://127.0.0.1:8888/api/ss
 ```json
 {
   "column": [
@@ -303,7 +306,8 @@
 }
 
 ```
-# login
+# 4. login
+http://127.0.0.1:8888/api/login
 post
 ```json
 {

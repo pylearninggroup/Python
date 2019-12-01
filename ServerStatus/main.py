@@ -53,18 +53,52 @@ class IndexHandler(BaseHandler):
         self.redirect('/static/pages/index.html')
 
 
-class LoginHandler(BaseHandler):
+class SSHandler(BaseHandler):
+    def get(self):
+        if self.get_secure_cookie('login'):
 
+            config_path = os.path.join(static_path, 'config', 'ss.json')
+            f = open(config_path)
+            config = json.load(f)
+            f.close()
+
+            client = mongo_db()
+            db = client['serverstatus']
+            col = db['ss_status']
+            data = list(col.find())
+            for item in data:
+                item.pop('_id')
+
+            results = {
+                "column": config['column'],
+                "data": data
+            }
+            self.write(results)
+        else:
+            self.set_status(403)
+
+
+class LoginHandler(BaseHandler):
     def post(self):
-        form = json.loads(self.request.body)
-        print(form)  # form是字典了
-        self.write({'status': 'ok'})
+        password = self.get_body_argument('password')
+        client = mongo_db()
+        db = client['serverstatus']
+        col = db['ss_auth']
+        db_password = col.find_one()['password']
+
+        result = pbkdf2_sha256.verify(password, db_password)
+        if result:
+            self.set_secure_cookie('login', 'abc')
+        else:
+            self.set_status(400)
+            self.write({"message": "密码错误"})
 
 
 class RunServer:
     handlers = [
         (r'/api/game', GameHandler),
-        (r'/login', LoginHandler),
+        (r'/api/ss', SSHandler),
+        (r'/api/login', LoginHandler),
         (r'/', IndexHandler),
         (r'/static/(.*)', web.StaticFileHandler, {'path': static_path}),
     ]

@@ -42,13 +42,7 @@
       "label": "流量",
       "width": "180"
     },
-    {
-      "sortable": false,
-      "prop": "rate",
-      "type": "string",
-      "label": "在线率",
-      "width": "90"
-    },
+
     {
       "sortable": false,
       "prop": "status",

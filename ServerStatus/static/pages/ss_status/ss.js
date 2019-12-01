@@ -23,7 +23,7 @@ let PageConfig = {
                         type: 'info'
                     });
                     setTimeout(function () {
-                        window.location = 'login.html'
+                        window.location = '../ss_status/login.html'
                     }, 1500);
 
                 }

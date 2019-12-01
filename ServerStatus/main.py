@@ -48,6 +48,36 @@ class GameHandler(BaseHandler):
         self.write(results)
 
 
+class WebHandler(BaseHandler):
+
+    def get(self):
+        # TODO 后端分页
+        page = int(self.get_query_argument('page'))  # 当前页码
+        size = int(self.get_query_argument('per_page'))  # 每页条数
+
+        config_path = os.path.join(static_path, 'config', 'web.json')
+        f = open(config_path)
+        config = json.load(f)
+        f.close()
+
+        client = mongo_db()
+        db = client['serverstatus']
+        col = db['web_status']
+        # 分页查询
+        # col.find().skip(skip_num).limit(limit_num)
+        count = col.count_documents()
+        data = list(col.find())
+        for item in data:
+            item.pop('_id')
+
+        results = {
+            "column": config['column'],
+            "data": data,
+            "meta": {"count": count}
+        }
+        self.write(results)
+
+
 class IndexHandler(BaseHandler):
     def get(self):
         self.redirect('/static/pages/index.html')
@@ -97,6 +127,7 @@ class LoginHandler(BaseHandler):
 class RunServer:
     handlers = [
         (r'/api/game', GameHandler),
+        (r'/api/web', WebHandler),
         (r'/api/ss', SSHandler),
         (r'/api/login', LoginHandler),
         (r'/', IndexHandler),

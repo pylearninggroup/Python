@@ -1,7 +1,7 @@
 let PageConfig = {
     title: "网站服务器状态",
     load_url: AjaxUrls.web_status,
-    load_type: "client",
+    load_type: "server",
     eui: {
         data: {
             menu_index: "web_status",
